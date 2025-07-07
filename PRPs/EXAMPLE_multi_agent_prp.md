@@ -1,70 +1,70 @@
-name: "Multi-Agent System: Research Agent with Email Draft Sub-Agent"
+name: "マルチエージェントシステム：リサーチエージェント＋メール下位エージェント"
 description: |
 
-## Purpose
-Build a Pydantic AI multi-agent system where a primary Research Agent uses Brave Search API and has an Email Draft Agent (using Gmail API) as a tool. This demonstrates agent-as-tool pattern with external API integrations.
+## 目的（Purpose）
+Brave Search APIを利用する主エージェント（Research Agent）が、Gmail APIを使うメール下位エージェント（Email Draft Agent）をツールとして呼び出す、Pydantic AIのマルチエージェントシステムを構築します。外部API連携を含む「エージェントをツール化する」パターンの実例です。
 
-## Core Principles
-1. **Context is King**: Include ALL necessary documentation, examples, and caveats
-2. **Validation Loops**: Provide executable tests/lints the AI can run and fix
-3. **Information Dense**: Use keywords and patterns from the codebase
-4. **Progressive Success**: Start simple, validate, then enhance
+## 基本原則（Core Principles）
+1. **コンテキスト最優先**：必要なドキュメント・例・注意点をすべて含める
+2. **バリデーションループ**：AIが実行・修正できるテストやリントを必ず用意
+3. **情報密度重視**：コードベースのキーワードやパターンを活用
+4. **段階的な成功**：まずシンプルに作り、検証し、徐々に強化
 
 ---
 
-## Goal
-Create a production-ready multi-agent system where users can research topics via CLI, and the Research Agent can delegate email drafting tasks to an Email Draft Agent. The system should support multiple LLM providers and handle API authentication securely.
+## ゴール（Goal）
+CLI経由でユーザーがリサーチ依頼を出し、Research Agentがメール作成タスクをEmail Draft Agentに委譲できる、実運用レベルのマルチエージェントシステムを作成します。複数LLMプロバイダ対応・API認証の安全管理も必須です。
 
-## Why
-- **Business value**: Automates research and email drafting workflows
-- **Integration**: Demonstrates advanced Pydantic AI multi-agent patterns
-- **Problems solved**: Reduces manual work for research-based email communications
+## なぜ（Why）
+- **ビジネス価値**：リサーチとメール下書き業務を自動化
+- **統合性**：高度なPydantic AIマルチエージェントパターンを実証
+- **解決する課題**：リサーチベースのメール作成業務の手間削減
 
-## What
-A CLI-based application where:
-- Users input research queries
-- Research Agent searches using Brave API
-- Research Agent can invoke Email Draft Agent to create Gmail drafts
-- Results stream back to the user in real-time
+## 何を（What）
+CLIベースのアプリケーション：
+- ユーザーがリサーチクエリを入力
+- Research AgentがBrave APIで検索
+- Research AgentがEmail Draft Agentを呼び出しGmail下書きを作成
+- 結果がリアルタイムでユーザーにストリーミング返却
 
-### Success Criteria
-- [ ] Research Agent successfully searches via Brave API
-- [ ] Email Agent creates Gmail drafts with proper authentication
-- [ ] Research Agent can invoke Email Agent as a tool
-- [ ] CLI provides streaming responses with tool visibility
-- [ ] All tests pass and code meets quality standards
+### 成功基準（Success Criteria）
+- [ ] Research AgentがBrave APIで正常に検索できる
+- [ ] Email Agentが認証付きでGmail下書きを作成できる
+- [ ] Research AgentがEmail Agentをツールとして呼び出せる
+- [ ] CLIがツール利用状況を含めてストリーミング応答できる
+- [ ] すべてのテストが通り、コード品質基準を満たす
 
-## All Needed Context
+## 必要なすべてのコンテキスト
 
-### Documentation & References
+### ドキュメント・参考資料（Documentation & References）
 ```yaml
-# MUST READ - Include these in your context window
+# 必読 - 実装に必要な文脈をすべてここにリストアップ
 - url: https://ai.pydantic.dev/agents/
-  why: Core agent creation patterns
+  why: エージェント作成パターン
   
 - url: https://ai.pydantic.dev/multi-agent-applications/
-  why: Multi-agent system patterns, especially agent-as-tool
+  why: マルチエージェントシステムパターン（agent-as-tool含む）
   
 - url: https://developers.google.com/gmail/api/guides/sending
-  why: Gmail API authentication and draft creation
+  why: Gmail API認証と下書き作成
   
 - url: https://api-dashboard.search.brave.com/app/documentation
-  why: Brave Search API REST endpoints
+  why: Brave Search APIのRESTエンドポイント
   
 - file: examples/agent/agent.py
-  why: Pattern for agent creation, tool registration, dependencies
+  why: エージェント作成・ツール登録・依存性注入のパターン
   
 - file: examples/agent/providers.py
-  why: Multi-provider LLM configuration pattern
+  why: 複数プロバイダLLM設定パターン
   
 - file: examples/cli.py
-  why: CLI structure with streaming responses and tool visibility
+  why: ストリーミング応答・ツール可視化つきCLI構造
 
 - url: https://github.com/googleworkspace/python-samples/blob/main/gmail/snippet/send%20mail/create_draft.py
-  why: Official Gmail draft creation example
+  why: Gmail下書き作成の公式例
 ```
 
-### Current Codebase tree
+### 現在のコードベース構成
 ```bash
 .
 ├── examples/
@@ -81,59 +81,59 @@ A CLI-based application where:
 └── requirements.txt
 ```
 
-### Desired Codebase tree with files to be added
+### 追加後の理想的なコードベース構成
 ```bash
 .
 ├── agents/
-│   ├── __init__.py               # Package init
-│   ├── research_agent.py         # Primary agent with Brave Search
-│   ├── email_agent.py           # Sub-agent with Gmail capabilities
-│   ├── providers.py             # LLM provider configuration
-│   └── models.py                # Pydantic models for data validation
+│   ├── __init__.py               # パッケージ初期化
+│   ├── research_agent.py         # Brave Search対応主エージェント
+│   ├── email_agent.py           # Gmail対応下位エージェント
+│   ├── providers.py             # LLMプロバイダ設定
+│   └── models.py                # Pydanticデータバリデーションモデル
 ├── tools/
-│   ├── __init__.py              # Package init
-│   ├── brave_search.py          # Brave Search API integration
-│   └── gmail_tool.py            # Gmail API integration
+│   ├── __init__.py              # パッケージ初期化
+│   ├── brave_search.py          # Brave Search API連携
+│   └── gmail_tool.py            # Gmail API連携
 ├── config/
-│   ├── __init__.py              # Package init
-│   └── settings.py              # Environment and config management
+│   ├── __init__.py              # パッケージ初期化
+│   └── settings.py              # 環境・設定管理
 ├── tests/
-│   ├── __init__.py              # Package init
-│   ├── test_research_agent.py   # Research agent tests
-│   ├── test_email_agent.py      # Email agent tests
-│   ├── test_brave_search.py     # Brave search tool tests
-│   ├── test_gmail_tool.py       # Gmail tool tests
-│   └── test_cli.py              # CLI tests
-├── cli.py                       # CLI interface
-├── .env.example                 # Environment variables template
-├── requirements.txt             # Updated dependencies
-├── README.md                    # Comprehensive documentation
-└── credentials/.gitkeep         # Directory for Gmail credentials
+│   ├── __init__.py              # パッケージ初期化
+│   ├── test_research_agent.py   # Research agentテスト
+│   ├── test_email_agent.py      # Email agentテスト
+│   ├── test_brave_search.py     # Brave searchツールテスト
+│   ├── test_gmail_tool.py       # Gmailツールテスト
+│   └── test_cli.py              # CLIテスト
+├── cli.py                       # CLIインターフェース
+├── .env.example                 # 環境変数テンプレート
+├── requirements.txt             # 依存パッケージ
+├── README.md                    # ドキュメント
+└── credentials/.gitkeep         # Gmail認証情報用ディレクトリ
 ```
 
-### Known Gotchas & Library Quirks
+### 既知の注意点・ライブラリの癖
 ```python
-# CRITICAL: Pydantic AI requires async throughout - no sync functions in async context
-# CRITICAL: Gmail API requires OAuth2 flow on first run - credentials.json needed
-# CRITICAL: Brave API has rate limits - 2000 req/month on free tier
-# CRITICAL: Agent-as-tool pattern requires passing ctx.usage for token tracking
-# CRITICAL: Gmail drafts need base64 encoding with proper MIME formatting
-# CRITICAL: Always use absolute imports for cleaner code
-# CRITICAL: Store sensitive credentials in .env, never commit them
+# 重要: Pydantic AIは全てasync必須（同期関数NG）
+# 重要: Gmail APIは初回OAuth2認証が必要（credentials.json必須）
+# 重要: Brave APIは無料枠で月2000リクエストまで
+# 重要: agent-as-toolパターンはctx.usageでトークン管理必須
+# 重要: Gmail下書きはbase64＋正しいMIME形式で作成
+# 重要: 絶対インポート推奨
+# 重要: 機密情報は.env管理、コミット禁止
 ```
 
-## Implementation Blueprint
+## 実装設計（Implementation Blueprint）
 
-### Data models and structure
+### データモデル・構造
 
 ```python
-# models.py - Core data structures
+# models.py - コアデータ構造
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
 
 class ResearchQuery(BaseModel):
-    query: str = Field(..., description="Research topic to investigate")
+    query: str = Field(..., description="調査トピック")
     max_results: int = Field(10, ge=1, le=50)
     include_summary: bool = Field(True)
 
@@ -152,100 +152,100 @@ class EmailDraft(BaseModel):
 
 class ResearchEmailRequest(BaseModel):
     research_query: str
-    email_context: str = Field(..., description="Context for email generation")
+    email_context: str = Field(..., description="メール生成のための文脈")
     recipient_email: str
 ```
 
-### List of tasks to be completed
+### タスク一覧
 
 ```yaml
-Task 1: Setup Configuration and Environment
+Task 1: 設定・環境準備
 CREATE config/settings.py:
-  - PATTERN: Use pydantic-settings like examples use os.getenv
-  - Load environment variables with defaults
-  - Validate required API keys present
+  - PATTERN: pydantic-settingsやos.getenv利用例を踏襲
+  - 環境変数をデフォルト付きでロード
+  - 必須APIキーのバリデーション
 
 CREATE .env.example:
-  - Include all required environment variables with descriptions
-  - Follow pattern from examples/README.md
+  - 必要な環境変数をすべて説明付きで記載
+  - examples/README.mdのパターンを踏襲
 
-Task 2: Implement Brave Search Tool
+Task 2: Brave Searchツール実装
 CREATE tools/brave_search.py:
-  - PATTERN: Async functions like examples/agent/tools.py
-  - Simple REST client using httpx (already in requirements)
-  - Handle rate limits and errors gracefully
-  - Return structured BraveSearchResult models
+  - PATTERN: examples/agent/tools.pyのasync関数パターン
+  - httpx利用のシンプルなRESTクライアント
+  - レート制限・エラーを適切に処理
+  - BraveSearchResultモデルで返却
 
-Task 3: Implement Gmail Tool
+Task 3: Gmailツール実装
 CREATE tools/gmail_tool.py:
-  - PATTERN: Follow OAuth2 flow from Gmail quickstart
-  - Store token.json in credentials/ directory
-  - Create draft with proper MIME encoding
-  - Handle authentication refresh automatically
+  - PATTERN: GmailクイックスタートのOAuth2フローを踏襲
+  - credentials/ディレクトリにtoken.json保存
+  - 正しいMIMEエンコードで下書き作成
+  - 認証リフレッシュも自動対応
 
-Task 4: Create Email Draft Agent
+Task 4: Email Draft Agent作成
 CREATE agents/email_agent.py:
-  - PATTERN: Follow examples/agent/agent.py structure
-  - Use Agent with deps_type pattern
-  - Register gmail_tool as @agent.tool
-  - Return EmailDraft model
+  - PATTERN: examples/agent/agent.py構造を踏襲
+  - deps_typeパターンでAgent作成
+  - gmail_toolを@agent.toolで登録
+  - EmailDraftモデルで返却
 
-Task 5: Create Research Agent
+Task 5: Research Agent作成
 CREATE agents/research_agent.py:
-  - PATTERN: Multi-agent pattern from Pydantic AI docs
-  - Register brave_search as tool
-  - Register email_agent.run() as tool
-  - Use RunContext for dependency injection
+  - PATTERN: Pydantic AI docsのマルチエージェントパターン
+  - brave_searchをツールとして登録
+  - email_agent.run()もツール登録
+  - 依存性注入にRunContext利用
 
-Task 6: Implement CLI Interface
+Task 6: CLIインターフェース実装
 CREATE cli.py:
-  - PATTERN: Follow examples/cli.py streaming pattern
-  - Color-coded output with tool visibility
-  - Handle async properly with asyncio.run()
-  - Session management for conversation context
+  - PATTERN: examples/cli.pyのストリーミング出力パターン
+  - ツール可視化・カラー出力
+  - asyncio.run()でasync対応
+  - セッション管理で会話文脈保持
 
-Task 7: Add Comprehensive Tests
+Task 7: テスト追加
 CREATE tests/:
-  - PATTERN: Mirror examples test structure
-  - Mock external API calls
-  - Test happy path, edge cases, errors
-  - Ensure 80%+ coverage
+  - PATTERN: examples配下のテスト構造を踏襲
+  - 外部APIはモック化
+  - ハッピーパス・エッジ・エラー全網羅
+  - カバレッジ80%以上
 
-Task 8: Create Documentation
+Task 8: ドキュメント作成
 CREATE README.md:
-  - PATTERN: Follow examples/README.md structure
-  - Include setup, installation, usage
-  - API key configuration steps
-  - Architecture diagram
+  - PATTERN: examples/README.md構造を踏襲
+  - セットアップ・インストール・使い方
+  - APIキー設定手順
+  - アーキテクチャ図
 ```
 
-### Per task pseudocode
+### 各タスクごとの擬似コード
 
 ```python
-# Task 2: Brave Search Tool
+# Task 2: Brave Searchツール
 async def search_brave(query: str, api_key: str, count: int = 10) -> List[BraveSearchResult]:
-    # PATTERN: Use httpx like examples use aiohttp
+    # PATTERN: httpx利用（examplesはaiohttp）
     async with httpx.AsyncClient() as client:
         headers = {"X-Subscription-Token": api_key}
         params = {"q": query, "count": count}
         
-        # GOTCHA: Brave API returns 401 if API key invalid
+        # 注意: APIキー無効時は401
         response = await client.get(
             "https://api.search.brave.com/res/v1/web/search",
             headers=headers,
             params=params,
-            timeout=30.0  # CRITICAL: Set timeout to avoid hanging
+            timeout=30.0  # 重要: タイムアウト必須
         )
         
-        # PATTERN: Structured error handling
+        # エラー処理パターン
         if response.status_code != 200:
             raise BraveAPIError(f"API returned {response.status_code}")
         
-        # Parse and validate with Pydantic
+        # Pydanticでバリデーション
         data = response.json()
         return [BraveSearchResult(**result) for result in data.get("web", {}).get("results", [])]
 
-# Task 5: Research Agent with Email Agent as Tool
+# Task 5: Research AgentからEmail Agentツール呼び出し
 @research_agent.tool
 async def create_email_draft(
     ctx: RunContext[AgentDependencies],
@@ -253,23 +253,23 @@ async def create_email_draft(
     subject: str,
     context: str
 ) -> str:
-    """Create email draft based on research context."""
-    # CRITICAL: Pass usage for token tracking
+    """リサーチ文脈からメール下書きを作成"""
+    # 重要: トークン管理のためusageを渡す
     result = await email_agent.run(
         f"Create an email to {recipient} about: {context}",
         deps=EmailAgentDeps(subject=subject),
-        usage=ctx.usage  # PATTERN from multi-agent docs
+        usage=ctx.usage  # multi-agent docsのパターン
     )
     
     return f"Draft created with ID: {result.data}"
 ```
 
-### Integration Points
+### 統合ポイント
 ```yaml
 ENVIRONMENT:
-  - add to: .env
-  - vars: |
-      # LLM Configuration
+  - .envに追加
+  - 変数例:
+      # LLM設定
       LLM_PROVIDER=openai
       LLM_API_KEY=sk-...
       LLM_MODEL=gpt-4
@@ -277,43 +277,43 @@ ENVIRONMENT:
       # Brave Search
       BRAVE_API_KEY=BSA...
       
-      # Gmail (path to credentials.json)
+      # Gmail（credentials.jsonのパス）
       GMAIL_CREDENTIALS_PATH=./credentials/credentials.json
       
 CONFIG:
-  - Gmail OAuth: First run opens browser for authorization
-  - Token storage: ./credentials/token.json (auto-created)
+  - Gmail OAuth: 初回はブラウザで認証
+  - トークン保存: ./credentials/token.json（自動生成）
   
 DEPENDENCIES:
-  - Update requirements.txt with:
+  - requirements.txtに以下を追加:
     - google-api-python-client
     - google-auth-httplib2
     - google-auth-oauthlib
 ```
 
-## Validation Loop
+## バリデーションループ（Validation Loop）
 
-### Level 1: Syntax & Style
+### レベル1：構文・スタイル
 ```bash
-# Run these FIRST - fix any errors before proceeding
-ruff check . --fix              # Auto-fix style issues
-mypy .                          # Type checking
+# まずこれらを実行し、エラーがあれば修正してから進める
+ruff check . --fix              # スタイル自動修正
+mypy .                          # 型チェック
 
-# Expected: No errors. If errors, READ and fix.
+# 期待値: エラーなし。エラーが出たら必ず修正。
 ```
 
-### Level 2: Unit Tests
+### レベル2：ユニットテスト
 ```python
 # test_research_agent.py
 async def test_research_with_brave():
-    """Test research agent searches correctly"""
+    """Research Agentが正しく検索できるか"""
     agent = create_research_agent()
     result = await agent.run("AI safety research")
     assert result.data
     assert len(result.data) > 0
 
 async def test_research_creates_email():
-    """Test research agent can invoke email agent"""
+    """Research AgentがEmail Agentを呼べるか"""
     agent = create_research_agent()
     result = await agent.run(
         "Research AI safety and draft email to john@example.com"
@@ -322,13 +322,13 @@ async def test_research_creates_email():
 
 # test_email_agent.py  
 def test_gmail_authentication(monkeypatch):
-    """Test Gmail OAuth flow handling"""
+    """Gmail OAuthフローのテスト"""
     monkeypatch.setenv("GMAIL_CREDENTIALS_PATH", "test_creds.json")
     tool = GmailTool()
     assert tool.service is not None
 
 async def test_create_draft():
-    """Test draft creation with proper encoding"""
+    """正しいエンコードで下書き作成できるか"""
     agent = create_email_agent()
     result = await agent.run(
         "Create email to test@example.com about AI research"
@@ -337,59 +337,58 @@ async def test_create_draft():
 ```
 
 ```bash
-# Run tests iteratively until passing:
+# テストが通るまで繰り返し実行：
 pytest tests/ -v --cov=agents --cov=tools --cov-report=term-missing
 
-# If failing: Debug specific test, fix code, re-run
+# 失敗時: 個別テストをデバッグ・修正→再実行
 ```
 
-### Level 3: Integration Test
+### レベル3：統合テスト
 ```bash
-# Test CLI interaction
+# CLI対話テスト
 python cli.py
 
-# Expected interaction:
+# 期待される対話例：
 # You: Research latest AI safety developments
-# 🤖 Assistant: [Streams research results]
-# 🛠 Tools Used:
+# 🤖 Assistant: [リサーチ結果をストリーム]
+# 🛠 使用ツール:
 #   1. brave_search (query='AI safety developments', limit=10)
 #
 # You: Create an email draft about this to john@example.com  
-# 🤖 Assistant: [Creates draft]
-# 🛠 Tools Used:
+# 🤖 Assistant: [下書き作成]
+# 🛠 使用ツール:
 #   1. create_email_draft (recipient='john@example.com', ...)
 
-# Check Gmail drafts folder for created draft
+# Gmailの下書きフォルダを確認
 ```
 
-## Final Validation Checklist
-- [ ] All tests pass: `pytest tests/ -v`
-- [ ] No linting errors: `ruff check .`
-- [ ] No type errors: `mypy .`
-- [ ] Gmail OAuth flow works (browser opens, token saved)
-- [ ] Brave Search returns results
-- [ ] Research Agent invokes Email Agent successfully
-- [ ] CLI streams responses with tool visibility
-- [ ] Error cases handled gracefully
-- [ ] README includes clear setup instructions
-- [ ] .env.example has all required variables
+## 最終バリデーションチェックリスト
+- [ ] すべてのテストが通る: `pytest tests/ -v`
+- [ ] リントエラーなし: `ruff check .`
+- [ ] 型エラーなし: `mypy .`
+- [ ] Gmail OAuthフローが動作（ブラウザ認証・トークン保存）
+- [ ] Brave Searchで検索できる
+- [ ] Research AgentがEmail Agentを呼び出せる
+- [ ] CLIがツール可視化つきでストリーミング応答
+- [ ] エラーケースも適切に処理
+- [ ] READMEにセットアップ手順が明記
+- [ ] .env.exampleに全必要変数あり
 
 ---
 
-## Anti-Patterns to Avoid
-- ❌ Don't hardcode API keys - use environment variables
-- ❌ Don't use sync functions in async agent context
-- ❌ Don't skip OAuth flow setup for Gmail
-- ❌ Don't ignore rate limits for APIs
-- ❌ Don't forget to pass ctx.usage in multi-agent calls
-- ❌ Don't commit credentials.json or token.json files
+## NGパターン・アンチパターン
+- ❌ APIキーのハードコーディング禁止（必ず環境変数）
+- ❌ asyncエージェント文脈で同期関数禁止
+- ❌ Gmail OAuthフローのセットアップ省略禁止
+- ❌ APIレート制限無視禁止
+- ❌ multi-agent呼び出しでctx.usage渡し忘れ禁止
+- ❌ credentials.jsonやtoken.jsonのコミット禁止
 
-## Confidence Score: 9/10
+## 信頼度スコア: 9/10
 
-High confidence due to:
-- Clear examples to follow from the codebase
-- Well-documented external APIs
-- Established patterns for multi-agent systems
-- Comprehensive validation gates
+- コードベースに明確な例がある
+- 外部APIがよくドキュメント化されている
+- マルチエージェントパターンが確立されている
+- バリデーションゲートが網羅的
 
-Minor uncertainty on Gmail OAuth first-time setup UX, but documentation provides clear guidance.
+Gmail OAuth初回UXに若干不安はあるが、ドキュメントが明快なので十分対応可能。
