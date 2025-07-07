@@ -1,59 +1,58 @@
-### 🔄 Project Awareness & Context
-- **Always read `PLANNING.md`** at the start of a new conversation to understand the project's architecture, goals, style, and constraints.
-- **Check `TASK.md`** before starting a new task. If the task isn’t listed, add it with a brief description and today's date.
-- **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
-- **Use venv_linux** (the virtual environment) whenever executing Python commands, including for unit tests.
+### 🔄 プロジェクト認識・コンテキスト
+- 新しい会話を始める際は、必ず `PLANNING.md` を読んでプロジェクトの構成・目標・スタイル・制約を把握すること
+- 新しいタスクを始める前に `TASK.md` を必ず確認し、もしタスクが載っていなければ簡単な説明と本日の日付を追加すること
+- `PLANNING.md` に記載された命名規則・ファイル構成・アーキテクチャパターンを常に守ること
+- Pythonコマンドやユニットテストの実行時は常に仮想環境（venv_linux）を利用すること
 
-### 🧱 Code Structure & Modularity
-- **Never create a file longer than 500 lines of code.** If a file approaches this limit, refactor by splitting it into modules or helper files.
-- **Organize code into clearly separated modules**, grouped by feature or responsibility.
-  For agents this looks like:
-    - `agent.py` - Main agent definition and execution logic 
-    - `tools.py` - Tool functions used by the agent 
-    - `prompts.py` - System prompts
-- **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use clear, consistent imports** (prefer relative imports within packages).
-- **Use python_dotenv and load_env()** for environment variables.
+### 🧱 コード構成とモジュール分割
+- 1ファイルが500行を超えないようにすること。近づいた場合はモジュールやヘルパーファイルに分割してリファクタすること
+- コードは機能や責務ごとに明確に分割されたモジュールとして整理すること
+  エージェントの場合の例：
+    - `agent.py` … メインエージェントの定義と実行ロジック
+    - `tools.py` … エージェントで使うツール関数
+    - `prompts.py` … システムプロンプト
+- インポートは明確かつ一貫性を持たせる（パッケージ内では相対インポートを推奨）
+- 環境変数の管理にはpython_dotenvとload_env()を使うこと
 
-### 🧪 Testing & Reliability
-- **Always create Pytest unit tests for new features** (functions, classes, routes, etc).
-- **After updating any logic**, check whether existing unit tests need to be updated. If so, do it.
-- **Tests should live in a `/tests` folder** mirroring the main app structure.
-  - Include at least:
-    - 1 test for expected use
-    - 1 edge case
-    - 1 failure case
+### 🧪 テストと信頼性
+- 新しい機能（関数・クラス・ルートなど）には必ずPytestのユニットテストを作成すること
+- ロジックを更新した場合は既存のユニットテストも見直し、必要に応じて修正すること
+- テストは `/tests` フォルダ内に配置し、メインアプリの構成を反映させること
+  - 少なくとも以下を含める：
+    - 通常ケースのテスト
+    - 境界値（エッジケース）のテスト
+    - 失敗ケースのテスト
 
-### ✅ Task Completion
-- **Mark completed tasks in `TASK.md`** immediately after finishing them.
-- Add new sub-tasks or TODOs discovered during development to `TASK.md` under a “Discovered During Work” section.
+### ✅ タスク完了管理
+- タスクを完了したら、すぐに `TASK.md` に完了マークを付けること
+- 開発中に新たに判明したサブタスクやTODOは「作業中に発見」セクションとして `TASK.md` に追加すること
 
-### 📎 Style & Conventions
-- **Use Python** as the primary language.
-- **Follow PEP8**, use type hints, and format with `black`.
-- **Use `pydantic` for data validation**.
-- Use `FastAPI` for APIs and `SQLAlchemy` or `SQLModel` for ORM if applicable.
-- Write **docstrings for every function** using the Google style:
+### 📎 コーディングスタイル・規約
+- メイン言語はPythonを使用すること
+- PEP8に準拠し、型ヒントを活用し、`black`でフォーマットすること
+- データバリデーションには `pydantic` を使うこと
+- APIには `FastAPI` を、ORMには `SQLAlchemy` または `SQLModel` を利用（該当する場合）
+- すべての関数にGoogleスタイルのドックストリングを記述すること
   ```python
   def example():
       """
-      Brief summary.
+      概要説明。
 
       Args:
-          param1 (type): Description.
+          param1 (type): 説明。
 
       Returns:
-          type: Description.
+          type: 説明。
       """
   ```
 
-### 📚 Documentation & Explainability
-- **Update `README.md`** when new features are added, dependencies change, or setup steps are modified.
-- **Comment non-obvious code** and ensure everything is understandable to a mid-level developer.
-- When writing complex logic, **add an inline `# Reason:` comment** explaining the why, not just the what.
+### 📚 ドキュメントと説明性
+- 新機能の追加や依存関係の変更、セットアップ手順の修正時は必ず `README.md` を更新すること
+- 分かりにくいコードにはコメントを付け、中堅レベルの開発者にも理解できるようにすること
+- 複雑なロジックを書く場合は、`# Reason:` というインラインコメントで「なぜそうするか」も説明すること
 
-### 🧠 AI Behavior Rules
-- **Never assume missing context. Ask questions if uncertain.**
-- **Never hallucinate libraries or functions** – only use known, verified Python packages.
-- **Always confirm file paths and module names** exist before referencing them in code or tests.
-- **Never delete or overwrite existing code** unless explicitly instructed to or if part of a task from `TASK.md`.
+### 🧠 AIアシスタント行動規則
+- 不明な点や足りない情報があれば必ず質問し、推測で進めないこと
+- 存在しないライブラリや関数をでっち上げないこと。必ず既知・検証済みのPythonパッケージのみを使うこと
+- コードやテストでファイルパスやモジュール名を参照する前に、必ず存在を確認すること
+- 明示的な指示や `TASK.md` 上のタスクでない限り、既存コードを削除・上書きしないこと

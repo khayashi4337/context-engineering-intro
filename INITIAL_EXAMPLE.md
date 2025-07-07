@@ -1,26 +1,26 @@
 ## FEATURE:
 
-- Pydantic AI agent that has another Pydantic AI agent as a tool.
-- Research Agent for the primary agent and then an email draft Agent for the subagent.
-- CLI to interact with the agent.
-- Gmail for the email draft agent, Brave API for the research agent.
+- Pydantic AIエージェントが、別のPydantic AIエージェントをツールとして持つ構成
+- メインエージェントはリサーチエージェント、サブエージェントはメール下書きエージェント
+- エージェントと対話するためのCLI（コマンドラインインターフェース）
+- メール下書きエージェントにはGmail、リサーチエージェントにはBrave APIを利用
 
 ## EXAMPLES:
 
-In the `examples/` folder, there is a README for you to read to understand what the example is all about and also how to structure your own README when you create documentation for the above feature.
+`examples/` フォルダ内にREADMEがあり、例の概要や、上記機能用READMEの構成例を理解できます。
 
-- `examples/cli.py` - use this as a template to create the CLI
-- `examples/agent/` - read through all of the files here to understand best practices for creating Pydantic AI agents that support different providers and LLMs, handling agent dependencies, and adding tools to the agent.
+- `examples/cli.py` … CLI作成のテンプレートとして利用
+- `examples/agent/` … 複数プロバイダやLLMに対応したPydantic AIエージェントのベストプラクティス、依存関係管理、ツール追加方法などを把握するために全ファイルを参照
 
-Don't copy any of these examples directly, it is for a different project entirely. But use this as inspiration and for best practices.
+※これらの例をそのままコピーしないでください（別プロジェクト用です）。あくまでインスピレーションやベストプラクティスの参考としてください。
 
 ## DOCUMENTATION:
 
-Pydantic AI documentation: https://ai.pydantic.dev/
+Pydantic AI ドキュメント: https://ai.pydantic.dev/
 
 ## OTHER CONSIDERATIONS:
 
-- Include a .env.example, README with instructions for setup including how to configure Gmail and Brave.
-- Include the project structure in the README.
-- Virtual environment has already been set up with the necessary dependencies.
-- Use python_dotenv and load_env() for environment variables
+- .env.exampleとセットアップ手順（GmailやBraveの設定方法を含む）をREADMEに記載すること
+- READMEにプロジェクト構成も記載すること
+- 必要な依存パッケージはすでに仮想環境にセットアップ済み
+- 環境変数の管理にはpython_dotenvとload_env()を使用すること
